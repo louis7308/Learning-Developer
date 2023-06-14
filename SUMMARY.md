@@ -1,6 +1,6 @@
 # Table of contents
 
-* [STACK BLOG](README.md)
+* [🐳 Who I am](README.md)
 
 ## 기초지식
 
