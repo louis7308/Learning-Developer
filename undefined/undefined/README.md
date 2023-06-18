@@ -10,8 +10,12 @@ description: 자료구조 정의
 
 예를 들어 한정된 크기의 책장이 있고, 넣어야 될 책들이 있다고 하자
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt="" width="369"><figcaption><p>빈 책장</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3).png" alt="" width="369"><figcaption><p>빈 책장</p></figcaption></figure>
 
 가장 많은 책을 넣는 방법은 아무 규칙 없이 있는 책을 모두 꽂아 넣는 것입니다.
 
 그럼 당장은 이책장의 공간을 가장 효율적으로 사용한 것 같지만, 이후 **책을 찾을 때 큰 문제**가 발생한다.
+
+아무 규칙 없이 꽂아 넣었기 때문에 찾을 때도 규칙 없이 모든 범위를 찾아야 한다.
+
+![](<../../.gitbook/assets/image (5).png>)
