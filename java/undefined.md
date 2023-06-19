@@ -145,9 +145,174 @@ do블록의 마지막에 while문을 붙이는 구조이다.\
         int sum = 0;
         
         do {
-        	sum += (i+1);
+            sum += (i+1);
             i ++;
         } while (i<10);
         System.out.println(sum);
 ```
 {% endcode %}
+
+### 4) 클래스, 인스턴스, 메소드
+
+#### Class ( 클래스 )
+
+표현하고자 하는 대상의 공통 속성을 한 곳에 모아놓아 정의 해놓은 것 즉, 객체의 속성을 정의한 것이다.
+
+객체의 속성에는 필드, 메소드, 생성자 가 존재한다.
+
+필드(전역변수)는 클래스 내부 전역에서 사용 가능한 전역변수에 해당한다. 이는 멤버변수 라고도 불린다.
+
+반면 Method와 Constructor에서 정의된 변수는 지역변수라고 한다.
+
+
+
+#### Instance ( 인스턴스 )
+
+어떠한 클래스로부터 만들어진 객체를 그 클래스의 인스턴스라고 부른다.
+
+아래의 코드는 Phone은 클래스이고, 메인 함수의 galaxy, iphone은 인스턴스들이다.
+
+{% code lineNumbers="true" %}
+```java
+class Phone {
+    String model;
+    String color;
+    int price;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Phone galaxy = new Phone(); 
+        galaxy.model = "Galaxy10";
+        galaxy.color = "Black";
+        galaxy.price = 100;
+        
+        Phone iphone =new Phone();
+        iphone.model = "iPhoneX";
+        iphone.color = "Black";
+        iphone.price = 200;
+        
+
+        System.out.println("철수는 이번에 " + galaxy.model + galaxy.color + " + 색상을 " + galaxy.price + "만원에 샀다.");
+        System.out.println("영희는 이번에 " + iphone.model + iphone.color + " + 색상을 " + iphone.price + "만원에 샀다.");
+    }
+}
+```
+{% endcode %}
+
+
+
+#### Method
+
+Method는(함수) 어떠한 작업을 수행하는 코드를 하나로 묶어 놓은 것이다.
+
+Method 내의 변수는 지역변수로, Method 내부에서만 사용할 수 있다.
+
+코드 컨벤션은 시작은 동사로 하면서 카멜케이스를 사용해야 한다.
+
+{% code lineNumbers="true" %}
+```java
+//반환타입 메소드이름 (타입 변수명,타입 변수명, ...){ 
+//    수행되어야 할 코드
+//}
+
+int add(int x, int y) {
+    int result = x + y;
+    return result;
+}
+```
+{% endcode %}
+
+
+
+### 5) 생성자
+
+#### Constructor ( 생성자 )
+
+인스턴스가 생성될 때 사용되는 인스턴스 초기화 메소드이다. ( 기본으로 매개변수 없는 default 생성자 생성됨 )
+
+new와 같은 키워드로 해당 클래스의 인스턴스가 새로 생성될 때, 자동으로 호출 되는 메소드
+
+생성자의 이름은 클래스 명과 같아야 하며, 리턴값이 없다는 특징을 지닌다.
+
+```java
+//클래스이름 (타입 변수명, 타입 변수명, ...){
+//    인스턴스 생성 될 때에 수행하여할 코드
+//    변수의 초기화 코드
+//}
+
+class Phone {
+    String model;
+    String color;
+    int price;
+	
+    //생성자
+    Phone(String model, String color, int price) {
+        this.model = model;
+        this.color = color;
+        this.price = price;
+    }
+}
+```
+
+class에 선언된 변수들은 instance가 생성될 때 값이 초기화 된다.
+
+따라서 변수의 선언부나 생성자를 통해서 초기화를 해주지 않는다면, 각 자료형의 default 값이 할당된다.
+
+```java
+class DefaultValueTest {
+    byte byteDefaultValue;
+    int intDefaultValue;
+    short shortDefaultValue;
+    long longDefaultValue;
+    float floatDefaultValue;
+    double doubleDefaultValue;
+    boolean booleanDefaultValue;
+    String referenceDefaultValue;
+}
+
+public class Main {
+    public static void main(String[] args) {
+        DefaultValueTest defaultValueTest = new DefaultValueTest();
+        System.out.println("byte default: " + defaultValueTest.byteDefaultValue); // 0
+        System.out.println("short default: " + defaultValueTest.shortDefaultValue); // 0
+        System.out.println("int default: " + defaultValueTest.intDefaultValue); // 0
+        System.out.println("long default: " + defaultValueTest.longDefaultValue); // 0
+        System.out.println("float default: " + defaultValueTest.floatDefaultValue); // 0.0
+        System.out.println("double default: " + defaultValueTest.doubleDefaultValue); // 0.0
+        System.out.println("boolean default: " + defaultValueTest.booleanDefaultValue); // false
+        System.out.println("reference default: " + defaultValueTest.referenceDefaultValue); // null
+    }
+}
+```
+
+단 필드의 마지막 참조 자료형은 default 값이 아닌 참조할 값이 없다는 null을 반환한다.
+
+
+
+### 6) 상속
+
+상속이란 기존의 클래스를 재사용하는 방식중의 하나이다.
+
+한번 작성한 코드가 재사용이 필요하다면, 변경사항만 코드로 작성하면 되며 상대적으로 적은 양의 코드를 작성 할 수 있다.&#x20;
+
+이렇게 코드를 재사용한다면, 코드와 클래스가 많아질수록 관리가 용이해진다.
+
+상속을 하게되면 이루어지는 절차
+
+1. 부모 class로부터 정의된 field와 method를 물려 받는다.
+2. 새로운 필드와 메소드를 추가할 수 있다.
+3. 부모 클래스에서 물려받은 메소드를 수정할 수 있다.
+
+상속은 extends로 한다. (하나의 class만 상속 가능)
+
+```java
+class Animal{}
+class Dog extends Animal{}
+class Cat extends Animal{}
+```
+
+#### super, super() 메소드
+
+부모 클래스로부터 상속받은 필드나 메소드 및 생성자를 자식 클래스에서 참조하여 사용하고 싶을 때 사용하는 키워드이다.
+
