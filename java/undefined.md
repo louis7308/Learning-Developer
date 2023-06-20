@@ -235,6 +235,7 @@ new와 같은 키워드로 해당 클래스의 인스턴스가 새로 생성될 
 
 생성자의 이름은 클래스 명과 같아야 하며, 리턴값이 없다는 특징을 지닌다.
 
+{% code lineNumbers="true" %}
 ```java
 //클래스이름 (타입 변수명, 타입 변수명, ...){
 //    인스턴스 생성 될 때에 수행하여할 코드
@@ -254,11 +255,13 @@ class Phone {
     }
 }
 ```
+{% endcode %}
 
 class에 선언된 변수들은 instance가 생성될 때 값이 초기화 된다.
 
 따라서 변수의 선언부나 생성자를 통해서 초기화를 해주지 않는다면, 각 자료형의 default 값이 할당된다.
 
+{% code lineNumbers="true" %}
 ```java
 class DefaultValueTest {
     byte byteDefaultValue;
@@ -285,6 +288,7 @@ public class Main {
     }
 }
 ```
+{% endcode %}
 
 단 필드의 마지막 참조 자료형은 default 값이 아닌 참조할 값이 없다는 null을 반환한다.
 
@@ -306,13 +310,129 @@ public class Main {
 
 상속은 extends로 한다. (하나의 class만 상속 가능)
 
+{% code lineNumbers="true" %}
 ```java
 class Animal{}
 class Dog extends Animal{}
 class Cat extends Animal{}
 ```
+{% endcode %}
 
 #### super, super() 메소드
 
 부모 클래스로부터 상속받은 필드나 메소드 및 생성자를 자식 클래스에서 참조하여 사용하고 싶을 때 사용하는 키워드이다.
+
+
+
+#### this, this() 메소드와 차이점
+
+this는 현재 scope의 클래스를 지칭한다.
+
+this() 메소드는 같은 클래스의 다른 생성자를 호출할 때 사용된다면, super() 메소드는 부모 클래스의 생성자를 호출할 때 사용된다. 따라서 super()의 매개변수 자리에는 부모 클래스 생성자의 매개변수와 동일하게 들어가야 한다.
+
+예를 들어 부모 클래스에 다른 생성자가 있고, default 생성자가 없는 경우 자식 클래스에서 super(); 만을 선언하면 컴파일 에러가 발생한다. (매개변수 자리가 빈 default 생성자가 부모 클래스에 정의되어 있지 않기 때문이다.)
+
+
+
+#### overloading과 overrideing
+
+overloading은 한 클래스 내에 동일한 이름의 메소드를 여러개 정의하는 것입니다.
+
+메소드 간 이름이 동일해야하며 단, 매개변수의 개수 및 타입이 전부 동일하다면 오버로딩이 아닙니다.
+
+{% code lineNumbers="true" %}
+```java
+// 오버로딩의 조건에 부합하는 예제
+int add(int x, int y, int z) {
+    int result = x + y + z;
+    return result;
+}
+
+long add(int a, int b, long c) {
+    long result = a + b + c;
+    return result;
+}
+
+int add(int a, int b) {
+    int result = a + b;
+    return result;
+}
+```
+{% endcode %}
+
+overridding은 부모 클래스로 부터 상속받은 메소드의 내용을 변경하는 것이다.
+
+상속받은 메소드를 그대로 사용하기도 하지만, 필요에 의해 변경해야할 경우 오버라이딩을 한다.
+
+부모 클래스의 메소드와 이름, 매개변수, 반환타입이 동일해야한
+
+{% code lineNumbers="true" %}
+```java
+class Animal {
+    String name;
+    String color;
+
+    public void cry() {
+        System.out.println(name + " is crying.");
+    }
+}
+
+class Dog extends Animal {
+	//생성자
+    Dog(String name) {
+        this.name = name;
+    }
+	// 오버라이딩
+    @Override
+    public void cry() {
+        System.out.println(name + " is barking!");
+    }
+    public void swim() {
+        System.out.println(name + " is swimming.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = new Dog("코코");
+        // Animal 클래스인 dog는 자식 클래스 Dog의 swim() 사용 불가
+        // 쉽게 말해 부모 클래스는 자식 클래스의 메소드를 사용하지 못한다.
+        // 하지만 할당 시 오버라이딩한 cry()는 적용되어 is barking이 출력된다.
+        dog.cry();
+    }
+}
+```
+{% endcode %}
+
+자식(Dog) 객체는 자식(Dog) 타입으로 선언된 변수에도 할당할 수 있고, 부모(Animal) 타입으로 선언된 변수에도 할당할 수 있습니다.
+
+단 부모(Animal) 타입의 변수로 사용할 때는, 실제 객체를 만들(new) 때 사용한 자식(Dog) 타입에 있는 메소드를 호출 할 수 없습니다. (swim() 함수 호출시 컴파일 에러)
+
+**즉 오버로딩은 기존에 없는 새로운 메소드를 정의하는 것이며 오바라이딩은 상속받은 메소드의 내용을 변경하는 것이다.**
+
+
+
+### 7) 접근 제어자 (access modifier)
+
+접근 제어자는 멤버 변수거나 함수 혹은 클래스에 사용되며 외부에서의 접근을 제한하는 역활을 합니다.
+
+\-> private : 같은 클래스 내에서만 접근이 가능합니다.
+
+\-> default(nothing) : 같은 패키지 내에서만 접근이 가능합니다.
+
+\-> protected : 같은 패키지 내에서, 그리고 다른 패키지의 자손클래스에서 접근이 가능합니다.
+
+\-> public : 접근 제한이 전혀 없습니다.
+
+접근 제어자로 제어하는 것을 캡슐화 라고 한다. (encapsulation)
+
+객체지 프로그래밍이란 객체들 간의 상호작용을 코드로 표현하는 것입니다.
+
+* 이때 객체들간의 관계에 따라서 접근 할 수 있는 것과 아닌 것, 권한을 구분할 필요가 생깁니다.
+* 클래스 내부에 선언된 데이터의 부적한 사용으로부터 보호하기 위해서 ( 캡슐화 )
+* 접근 제어자는 캡슐화가 가능할 수 있도록 돕는 도구입니다.
+
+
+
+### 8) 추상 클래
 
