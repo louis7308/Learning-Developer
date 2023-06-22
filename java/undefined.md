@@ -434,5 +434,136 @@ public class Main {
 
 
 
-### 8) 추상 클래
+### 8) 추상 클래스
+
+추상클래스는 추상메소드를 선언할 수 있는 클래스를 의미합니다.
+
+추상클래스는 클래스와는 다르게 상속받는 클래스 없이 그 자체로 인스턴스를 생성할 수는 없습니다.
+
+추상메소드는 설계만 되어있으며 수행되는 코드에 대해서는 작성이 안된 메소드입니다.
+
+이처럼, 미완성으로 남겨두는 이유는 상속받는 클래스 마다 반드시 동작이 달라지는 경우에 상속받는 클래스 작성자가 반드시 작성하도록 하기 위함입니다. (자식 클래스에서 오버라이딩하여 작성됨) abstract 리턴타입 메소드이름();
+
+```java
+// 추상 클래스 Bird -> 그 자체로 인스턴스 생성 불가함.
+abstract class Bird{
+    private int x,y,z;
+
+    void fly(int x, int y, int z){
+        printLocation();
+        System.out.println("이동합니다.");
+        this.x = x;
+        this.y = y;
+        if(flyable(z)){
+            this.z = z;
+        }else{
+            System.out.println("그 높이로는 날 수 없습니다.");
+        }
+        printLocation();
+    }
+	
+    //추상 메서드 flyable() -> 자식 클래스에서 오버라이딩하여 사용
+    abstract boolean flyable(int z);
+
+    public void printLocation(){
+        System.out.println("현재 위치 {" + x + "," + y + "," + z + ")");
+    }
+}
+
+class Pigeon extends Bird{
+	
+    // 추상 메서드 오버라이딩
+    @Override
+    boolean flyable(int z) {
+        return z < 10000;
+    }
+}
+
+class Peacock extends Bird{
+	
+    // 추상 메서드 오버라이딩
+    @Override
+    boolean flyable(int z) {
+        return false;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Bird pigeon = new Pigeon();
+        Bird peacock = new Peacock();
+        System.out.println("---비둘기---");
+        pigeon.fly(1, 2, 3);
+        System.out.println("---공작새---");
+        peacock.fly(1, 2, 3);
+        System.out.println("---비둘기---");
+        pigeon.fly(1, 2, 30000);
+        
+        
+    }
+}
+// 실행결과
+---비둘기---
+현재 위치 {0,0,0)
+이동합니다.
+현재 위치 {1,2,3)
+---공작새---
+현재 위치 {0,0,0)
+이동합니다.
+그 높이로는 날 수 없습니다.
+현재 위치 {1,2,0)
+---비둘기---
+현재 위치 {1,2,3)
+이동합니다.
+그 높이로는 날 수 없습니다.
+현재 위치 {1,2,3)
+```
+
+
+
+### 9) 인터페이스
+
+인터페이스는 객체의 특정 행동의 특징을 정의하는 간단한 문법입니다.
+
+함수의 특징(method signature)인 접근제어자, 리턴타입, 메소드 이름만을 정의합니다. 함수의 내용 X
+
+인터페이스를 구현하는 클래스는 인터페이스에 존재하는 함수의 내용을 반드시 구현해야 합니다.
+
+interface 인터페이스명 { public abstract void 추상메서드명(); } -> 인터페이스의 메소드는 추상메소드, static메소드, default 메소드 모두 허용됩니다.
+
+{% code lineNumbers="true" %}
+```java
+interface Person {
+    static final int a1 = 0;
+    int  a = 0;
+    abstract  String checkString1();
+    default String checkString() {
+        return "String";
+    }
+}
+
+class Child implements Person {
+    public String getMessage() {
+        System.out.println("" + a);
+    }
+
+    @Override
+    public String checkString() {
+        return null;
+    }
+
+    @Override
+    public String checkString1() {
+        return null;
+    }
+}
+
+class Mom {
+    public String getMessage() {
+        Person.a = 1; // Error a 라는 변수가 final을 컴파일 시 자동으로 생성해주기 때문
+        System.out.println("" + Person.a);
+    }
+}
+```
+{% endcode %}
 
