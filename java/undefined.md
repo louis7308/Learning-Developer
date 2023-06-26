@@ -529,7 +529,7 @@ public class Main {
 
 인터페이스를 구현하는 클래스는 인터페이스에 존재하는 함수의 내용을 반드시 구현해야 합니다.
 
-interface 인터페이스명 { public abstract void 추상메서드명(); } -> 인터페이스의 메소드는 추상메소드, static메소드, default 메소드 모두 허용됩니다.
+interface 인터페이스명 { public abstract void 추상메서드명(); } -> 인ㅇ터페이스의 메소드는 추상메소드, static메소드, default 메소드 모두 허용됩니다.
 
 {% code lineNumbers="true" %}
 ```java
@@ -585,12 +585,61 @@ class Mom {
 1. 클래스를 상속받아 이용 및 확장을 위함
 2. 다중 상속 불가능 , 단일 상속 O
 3. extends를 이용하여 구현
-4. 추상메소드에 대한 구현 가
+4. 추상메소드에 대한 구현 가능
 5. 추상클래스의 기능을 재사용, 확장한다는 측면에서 상속성을 지님
 
-추상클래스 사용 시기 : 상속 관계를 쭉 타고 올라갔을때 같은 조상클래스를 상속하는데 기능까지 완변히 똑같은 기능이 필요한 경우
+추상클래스 사용 시기 : 상속 관계를 쭉 타고 올라갔을때 같은 조상클래스를 상속하는데 기능까지 완벽히 똑같은 기능이 필요한 경우
 
 인터페이스 사용 시기 : 상속 관계를 쭉 타고 올라갔을때 다른 조상클래스를 상속하는데 같은 기능이 필요할 경우 인터페이스 사용
 
 
 
+### 10) 예외 처리
+
+예외리란(Exception, Error Handling)
+
+* 예외처리의 목적
+
+1. 예외의 발생으로 인한 실행 중인 프로그램의 비정상 종료를 막기 위해서
+2. 개발자에게 알려서 코드를 보완할 수 있도록 하기 위해서
+
+* Throwable 에는 크게 두 종류의 자식 클래스가 있다 (Error & Exception)
+* 자바에 미리 정의 되어있는 예외 클래스 들이 있습니다. 기본적으로 이미 있는 것을 사용하시되, 필요한 것으로 표현할 수 없거나 구체적인 목적을 가진 예외를 가진 예외를 정의하고 싶다면, Throwable 또는 그 하위에 있는 예외 클래스를 상속받아서 자신만의 예외 클래스를 정의 할 수 있습니다.
+* 메소드에서의 예외 선언\
+  catch문을 이용해서 예외처리를 하지 않은 경우, 메소드에 throws로 예외가 발생할 수 있다는 것을 알려주어야 합니다. throws 키워드가 있는 함수를 호출한다면, caller 쪽에서 catch와 관련된 코드를 작성해주어야 합니다.
+
+```java
+void method() throws IndexOutOfBoundsException, IllegalArgumentException {
+    //메소드의 내용
+}
+```
+
+/ by zero와 arrayOutOfBoundException 출력하기.
+
+```java
+class ArrayCalculation {
+
+    int[] arr = { 0, 1, 2, 3, 4 };
+
+    public int divide(int denominatorIndex, int numeratorIndex) throws ArithmeticException, ArrayIndexOutOfBoundsException{
+        return arr[denominatorIndex] / arr[numeratorIndex];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayCalculation arrayCalculation = new ArrayCalculation();
+        System.out.println("2 / 1 = " + arrayCalculation.divide(2, 1));
+        try{
+            System.out.println("1 / 0 = " + arrayCalculation.divide(1, 0)); // java.lang.ArithmeticException: "/ by zero"
+        }catch (ArithmeticException e){
+            System.out.println("잘못된 계산 입니다. " + e.getMessage());
+        }try{
+            System.out.println("Try to divide using out of index element = "
+                    + arrayCalculation.divide(5, 0)); // java.lang.ArrayIndexOutOfBoundsException: 5
+        }catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("잘못된 인덱스 범위 입니다. 타당한 범위는 0부터 " + (arrayCalculation.arr.length -1) + "까지 입니다.");
+        }
+    }
+}
+```
