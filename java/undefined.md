@@ -643,3 +643,264 @@ public class Main {
     }
 }
 ```
+
+### 11) Collection 프레임워크 <a href="#12-collection" id="12-collection"></a>
+
+* 컬렉션 프레임워크란?
+  * 다수의 데이터를 다루기 위한 자료구조를 표현하고 사용하는 클래스의 집합을 의미
+  * 데이터를 다루는데 필요한 풍부하고 다양한 클래스와 기본함수를 제공하기 때문에 유용함
+  * 컬렉션 프레임워크의 모든 클래스는 `Collection` interface를 구현(implement)하는 클래스 또는 인터페이스다.
+*   컬렉션 인터페이스와 자료구조
+
+    `Collection` 은 모든 자료구조가 구현(implement)하는 인터페이스입니다. 아래 배우는 모든 자료구조에 해당하는 클래스, 인터페이스는 언제나 `Collection` 인터페이스를 구현하고 있습니다.
+
+    1. **List** : 순서가 있는 데이터의 집합이며 데이터의 중복을 허용합니다.\
+       → ArrayList, LinkedList, Stack 등
+    2. **Set** : 순서를 유지하지 않는 데이터의 집합이며 데이터의 중복을 허용하지 않습니다.\
+       → HashSet, TreeSet 등
+    3. **Map** : 키(key)와 값(value)의 쌍으로 이루어진 데이터의 집합입니다. 순서는 유지되지 않으며 키는 중복을 허용하지 않고 값은 중복을 허용합니다.\
+       → HashMap, TreeMap 등
+    4. **Stack** : (항아리) 마지막에 넣은 데이터를 먼저 꺼내는 자료구조입니다. LIFO(Last In First Out)\
+       → Stack, ArrayDeque 등
+    5. **Queue** : (줄서기) 먼저 넣은 데이터를 먼저 꺼내는 자료구조입니다. FIFO(First In First Out)\
+       → Queue, ArrayDeque 등
+    6. **컬렉션 인터페이스**에는 컬렉션 클래스에 저장된 데이터를 읽고, 추가하고 삭제하는 등 데이터를 다루는데 기본적인 메소드들을 정의하고 있습니다. 이러한 메소드들을 실제로 구현을 해보면 빠르게 익힐 수 있습니다.
+
+코드예시)\
+1\) List
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        List list = new ArrayList(10);
+        list.add(1);
+        list.add(5);
+        list.add(4);
+        list.add(11);
+        list.add(10); // ArrayList에 값 한개씩 입력
+        System.out.println(list); // [1,5,4,11,10]
+
+        Collections.sort(list); // list 정렬
+        System.out.println(list); // [1,4,5,10,11]
+
+        System.out.println(list.size()); // arrayList의 크기 출력
+
+        arrayList.remove(4); // 인덱스를 활용하여 해당하는 값 제거
+        System.out.println(list);
+
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i)); // get을 이용하여 값 1개씩 출력
+        }
+	for (int current : list) {
+	    System.out.println(current);
+        }
+
+    }
+}
+```
+
+2\) Set
+
+```java
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        // Set은 인터페이스, HashSet은 클래스
+        // 꺽쇠에는 참조자료형만 넣어줄 수 있다. 따라서 int는 기본자료형이기 때문에 Integer 클래스를 적어준다.
+        // Set은 수학에서 집합의 개념과 유사하다. 즉 중복 원소를 허용하지 않는다.
+        Set<Integer> integerSet = new HashSet<>();
+        integerSet.add(1);
+        integerSet.add(1);
+        integerSet.add(3);
+        integerSet.add(2);
+        integerSet.add(9);
+        System.out.println(integerSet);
+
+        Set<String> stringSet = new HashSet<>();
+        stringSet.add("LA");
+        stringSet.add("NY");
+        stringSet.add("LV");
+        stringSet.add("SF");
+        System.out.println(stringSet);
+
+        stringSet.remove("LV");
+        System.out.println(stringSet);
+
+        List<String> deleteTarget = new ArrayList<>();
+        deleteTarget.add("SF");
+        deleteTarget.add("LA");
+        //removeAll 메서드로 여러 원소를 한번에 지울 수도 있다.
+        stringSet.removeAll(deleteTarget);
+        System.out.println(stringSet);
+
+        // contains(Object)는 boolean을 리턴한다.
+        System.out.println(stringSet.contains("NY"));
+        System.out.println(stringSet.contains("SF"));
+
+        System.out.println(stringSet.size());
+    }
+}
+```
+
+3\) Map
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // Map의 꺽쇠에는 키와 밸류의 참조자료형을 순서대로 입력해준다.
+        Map<Integer, String> map = new HashMap<>();
+        map.put(1, "first");
+        map.put(2, "second");
+        map.put(3, "third");
+
+        System.out.println(map);
+
+        //get()은 키를 받아 밸류를 리턴하는 메서드
+        System.out.println("첫번 째 값은: " + map.get(1));
+
+        //키로 원소 삭제
+        map.remove(2);
+        System.out.println(map);
+
+        //키, 밸류로 포함 여부 확인 가능하다.
+        System.out.println(map.containsKey(2));
+        System.out.println(map.containsValue("third"));
+    }
+}
+```
+
+4\) 스택\
+\- **스택**이란(stack)\
+\- 스택은 마지막에 저장한 데이터를 가장 먼저 꺼내는 자료구조로 입니다. 이것을 **LIFO(Last In First Out)** 라고 합니다.\
+\- 스택의 예\
+\- 웹브라우저의 앞페이지 이동 뒤페이지 이동 / 그릇 쌓기
+
+![](https://velog.velcdn.com/images/rlafbf222/post/92f26f27-1105-4f85-8eb4-0addbb8ac8a8/image.png)
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Stack<Integer> stack = new Stack<>();
+        // push() 항아리에 차곡 차곡 눌러 담는다고 생각
+        stack.push(1);
+        stack.push(3);
+        stack.push(7);
+        stack.push(5);
+        System.out.println(stack);
+
+        // peak() 가장 위에 있는 원소를 출력한다.
+        System.out.println(stack.peek());
+        System.out.println(stack.size());
+        System.out.println(stack);
+        // pop() 가장 위에 있는 원소를 꺼내와 출력한다.
+        System.out.println(stack.pop());
+        System.out.println(stack.size());
+        System.out.println(stack);
+
+        // contains 해당 원소가 있는지
+        System.out.println(stack.contains(1));
+        // empty() 스택이 비어있는지를 boolean으로 리턴
+        System.out.println(stack.empty());
+        // clear() 스택 비워주기
+        stack.clear();
+        // isEmpty() 위 empty()와 비슷한 기능
+        System.out.println(stack.isEmpty());
+    }
+}
+```
+
+5\) **큐**(queue)
+
+* 큐는 처음에 저장한 데이터를 가장 먼저 꺼내게 되는 **FIFO(First In First Out)** 구조로 되어있습니다.
+* 큐의 예
+* 은행 창구 줄서기 / 인쇄작업 대기목록
+* 아래 그림을 통해 이해를 해보도록 하겠습니다! 큐는 양 쪽 끝의 통로가 뚫려있다고 생각하면 됩니다. 가장 먼저 들어온 Data가 반환이 될때도 가장 먼저 반환되는 것이죠!
+* 큐는 우선순위 큐, 원형 우선순위 큐, 원형 큐 등 다양하게 존재합니다\
+  ![](https://velog.velcdn.com/images/rlafbf222/post/ab454d1c-8e77-4b46-b0d6-147802fea7c5/image.png)
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // Queue는 인터페이스이기 때문에 구현체가 필요함 (대표적으로 링크드리스트)
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(1);
+        queue.add(5);
+        queue.add(3);
+
+        // 맨 앞에있는 원소를 출력한다. 스택의 peak()
+        System.out.println(queue.peek());
+        System.out.println(queue);
+        // 맨 앞에있는 원소를 꺼내와 출력한다. 스택의 pop()
+        System.out.println(queue.poll());
+        System.out.println(queue);
+
+        // empty() clear() 등은 스택과 비슷함함
+    }}
+```
+
+6\) ArrayDeque
+
+* 실무에서는 단순히 Stack, Queue 클래스 대신에 **ArrayDeque** 많이 사용합니다! 기본 Stack, Queue의 기능을 모두 포함하면서도 성능이 더 좋기 때문이죠.
+  * deque
+  *   우리가 앞서 배운 큐는 한쪽에서만 값이 삽입되고 다른 한쪽에서만 값을 반환하는 자료구조였습니다. 하지만 deque의 경우 양 끝에서 삽입과 반환이 가능합니다.
+
+      → 아래 사진은 deque 구조를 띄는 사진입니다. 정말 양 끝에서 삽입과 삭제가 이루어지고있죠? 우리가 예제로 확인해볼 ArrayDeque가 바로 이러한 형태입니다!
+
+![](https://velog.velcdn.com/images/rlafbf222/post/f30fe485-577c-473f-bd18-a9d1ead92c3c/image.png)
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        ArrayDeque<Integer> arrayDeque = new ArrayDeque<>();
+        // addFirst 맨 앞의 자리에 값을 넣는다
+        arrayDeque.addFirst(1);
+        arrayDeque.addFirst(2);
+        arrayDeque.addFirst(3);
+        arrayDeque.addFirst(4);
+        System.out.println(arrayDeque);
+
+        // addLast 맨 뒷 자리에 값을 넣는다
+        arrayDeque.addLast(0);
+        System.out.println(arrayDeque);
+
+        // offerFirst는 addFirst와 비슷하지만 큐의 크기에 문제가 생길 때 false를 리턴함
+        arrayDeque.offerFirst(10);
+        System.out.println(arrayDeque);
+        // offerLast addLast 비슷하지만 큐의 크기에 문제가 생길 때 false를 리턴함
+        arrayDeque.offerLast(-1);
+        System.out.println(arrayDeque);
+
+        // 스택과 반대로 !! 맨앞으로 들어감
+        arrayDeque.push(22);
+        System.out.println(arrayDeque);
+        // 맨 앞의 원소 꺼내와 출력하기
+        System.out.println(arrayDeque.pop());
+        System.out.println(arrayDeque);
+
+        Stack<Integer> stack = new Stack<>();
+        // push() 항아리에 차곡 차곡 눌러 담는다고 생각
+        stack.push(1);
+        stack.push(3);
+        stack.push(7);
+        stack.push(5);
+        System.out.println(stack);
+
+        // 사용해보며 익숙해지기
+        System.out.println(arrayDeque.pollFirst());
+        System.out.println(arrayDeque.peekFirst());
+        System.out.println(arrayDeque.size());
+        arrayDeque.clear();
+        System.out.println(arrayDeque.isEmpty());
+    }}
+```
