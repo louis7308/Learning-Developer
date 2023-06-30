@@ -42,7 +42,7 @@ Primitive Type의 배열을 초기화하면 값이 비어있는 것이 아니라
 
 <div align="left">
 
-<figure><img src="../../.gitbook/assets/image.png" alt="" width="563"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4).png" alt="" width="563"><figcaption></figcaption></figure>
 
 </div>
 
