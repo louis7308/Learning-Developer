@@ -86,3 +86,26 @@ QueryDSL JPA는 JPQL이 가지고 있는 문제점들을 해결해준다.
 
 JPQL 의 경우에는
 
+{% code lineNumbers="true" %}
+```kotlin
+val jpql = "select * from Member m join Point p on p.member_id = m.id"
+val result: List<Member> = em.createQuery(jpql, Member::class).getResultList()
+```
+{% endcode %}
+
+이런식으로 쿼리를 작성해야 하지만, QueryDSL을 사용했을 때에는
+
+{% code lineNumbers="true" %}
+```kotlin
+return jpaQueryFactory
+.from(member)
+.join(member.point, point)
+.fetch();
+```
+{% endcode %}
+
+이런식으로 코드를 사용해서 나타낼 수 있다.
+
+오타가 나더라도 컴파일 단계에서 오류를 확인 할 수 있고, 코드로서 작성하기 때문에 더욱 객체 지향적으로 개발할 수 있다.
+
+이러한 이유로 Spring에서 JPA를 사용할 때 QueryDSL JPA를 보통 함께 사용한다
