@@ -1,6 +1,6 @@
 # QueryDSL 이란?
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 QueryDSL은 한마디로 `SQL`, `JPQL 등을 코드로 작성할 수 있도록 해주는 빌더 오픈소스 프레임워크` 입니다.
 

@@ -18,4 +18,8 @@
 
 ## Spring
 
-* [쿼리 파라미터 로그 남기기](spring/undefined.md)
+* [Etc](spring/etc/README.md)
+  * [쿼리 파라미터 로그 남기기](spring/etc/undefined.md)
+  * [View 페이지 구동 원리](spring/etc/view.md)
+
+## Group 1
