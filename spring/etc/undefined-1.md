@@ -53,7 +53,7 @@ server:
 
 이 밖에도 많은 옵션을 과거 xml방식의 복잡한 설정에서 벗어나 간단하게 옵션을 변경할 수 있습니다. 만약 설정을 주지 않는다면, SpringBoot AutoConfiguration에서 정의한 디폴트값을 주입하게 됩니다. 해당 디폴트 값은 `org.springframework.boot.autoconfigure.web.ServerPoperties` 클래스에서 확인할 수 있습니다.
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
 
 ### 스레드풀(Thread Pool) 설정
 
@@ -70,9 +70,9 @@ Tomcat 3.2 이전 버전에서는, 유저의 요청이 들어올 때 마다 Serv
 > 1. 모든 요청에 대해 스레드를 생성하고 소멸하는 것은 OS와 JVM에 대해 많은 부담을 안겨준다
 > 2. 동시에 일정 이상의 다수 요청이 들어올 경우 리소스(CPU와 메모리 자원) 소모에 대한 억제가 어렵다. 즉 순간적으로 서버가 다운되거나 동시다발적인 요청을 처리하지 못해서 생기는 문제가 야기 될 수 있다.
 
-해당 문제를 해ㄹ결하기 위해, 톰캣은 스레드풀을 활용하기 시작합니다.
+해당 문제를 해결하기 위해, 톰캣은 스레드풀을 활용하기 시작합니다.
 
-<figure><img src="../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
 
 스레드풀의 기본 flow는 다음과 같습니다.
 
@@ -89,4 +89,108 @@ Tomcat 3.2 이전 버전에서는, 유저의 요청이 들어올 때 마다 Serv
 
 2번의 `Connection, Server Socket에서 accept한 소캣 객체` 가 이해 안 가신다면 `자바 소켓 프로그래밍` 으로 검색해보세요 구체적인 구현보다, 개념적으로 서버와 클라이언트가 어떻게 연결되는지에 대해 알아보세요.
 
-스레드는 많으면 너무 많은 스레드가 cpu의 자원을 두고 경합하게 되므로 처리속도가 느려질 수 있고, 적으면 cpu 자원을 최적으로 활용하지 못하여 마찬가지로 처리속도가 느려질 수 있습니다. \`적절한&#x20;
+스레드는 많으면 너무 많은 스레드가 cpu의 자원을 두고 경합하게 되므로 처리속도가 느려질 수 있고, 적으면 cpu 자원을 최적으로 활용하지 못하여 마찬가지로 처리속도가 느려질 수 있습니다. **적절한 수 로 유지되는 것이 가장 좋습니다.**
+
+스레드 풀은 최대한 core size를 유지하려고 합니다. 이와 관련해 어떤 전략이 있는지는. `스레드풀 전략` 으로 검색해보세요
+
+적절한 스레드의 개수로는 `적정 스레드 개수` 로 검색해보세요
+
+
+
+### 스레드풀 생성(ThreadPoolExecutor)
+
+위에 설명한 스레드풀을 자바에서 구현한 구현체가 ThreadPoolExecutor입니다. 앞서 aplication.yml 에서 주었던 설정 중 일부를 보겠습니다.
+
+```yaml
+server:
+    tomcat:
+        threads:
+            max: 200  # 생성할 수 있는 thread의 총 개수
+            min-spare: 10 # 항상 활성화 되어있는(idle) thread의 개수
+        accept-count: 100 # 작업 큐의 사이즈
+```
+
+이 두가지 설정은 **스레드 최대 사이즈 및 core size** 를 변경할 수 있도록 해줍니다. 톰캣 9.0의 디폴트 옵션은 각각 200개, 25개인데 스프링부트(ServerProperties) 에선 200개, 10개를 디폴트 값으로 잡았습니다. (core size 기본 값을 25개를 10개로 변경한 이유에 대해선 잘 모르겠습니다.)
+
+accept-count는 작업큐의 사이즈 입니다. 스프링 부트에선 아무 옵션을 안주면 Integer.MAX, 즉 21억....를 줬습니다. 이는 `무한 대기열 전략` 으로, 아무리 요청이 많이 들어와도 core size를 늘리지 않는다는 정책입니다. `무한 대기열 전략` 에선 작업큐가 꽉 찰 일이 없으므로, 스레드풀의 max사이즈가 의미가 없습니다.
+
+그럼 설정을 주어 max값을 변경 하는건 아무 의미 없을까요? 뒤에서 다시 알아보겠습니다.
+
+아래는 ThreadPoolExecutor의 생성자에 브레이크 포인트를 찍어놓고 디버그 모드로 실행한 결과입니다. Spring Boot 실행시, 톰캣을 initalize하고, ThreadPoolExecutor을 상속한 ScheduledThreadPoolExecutor를 생성함을 볼 수 있습니다. 이 때 Environment에 설정한 값이 있다면 해당 값이 주입되고, 없으면 기본값이 주입됩니다.
+
+<figure><img src="../../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+
+### 스레드풀 테스트
+
+지금까지 알아본 바에 의하면, 유저 요청이 들어올 때(Connection)마다 스레드가 하나씩 할당될 것이고, 작업큐가 가득차면 스레드가 늘어날 것이고, 스레드도 가득 차면 유저 요청이 거절되겠죠? 저도 그렇게 생각했고, 간단한 실험을 하나 해봤습니다.
+
+스프링 프로젝트를 ㅈ하나 만들고, application.yml에 다음과 같이 옵션을 주었습니다.
+
+```yaml
+server:
+  tomcat:
+    threads:
+      max: 2
+      min-spare: 2
+    accept-count: 1
+  port: 5000
+```
+
+그 후 3초를 대기하는 api를 하나 만들었습니다.
+
+```kotlin
+@RestController
+class HelloController(
+) {
+    private val log: Logger = LoggerFactory.getLogger(HelloController::class.java)
+
+    @RequestMapping("/hello")
+    @Throws(InterruptedException::class)
+    fun hello(): ResponseEntity<Void?>? {
+        log.info("start")
+        Thread.sleep(3000)
+        log.info("end")
+        return ResponseEntity.ok().build()
+    }
+
+    @GetMapping("/")
+    @ResponseBody
+    fun 요청5개쏘는메소드(): ResponseEntity<Void?>? {
+        val restTemplate = RestTemplate()
+        for (i in 0..4) {
+            val thread = Thread {
+                log.info("발사!")
+                val result = restTemplate
+                    .getForObject("http://localhost:8080/hello", String::class.java)
+                log.info(result)
+            }
+            thread.start()
+        }
+        return ResponseEntity.ok().build()
+    }
+}
+```
+
+이 프로젝트가 감당할 수 있는 요청은 동원할 수 있는 스레드 2개, 그리고 작업큐 1개에서 대기할 요청까지 최대 3개입니다.
+
+이를 확인하기 위해 또 다른 스프링 프로젝트를 만들어, 요청을 5번 보내보기로 했습니다.
+
+해당 코드는 밀리세컨드 단위로 5번의 요청을 한번에 보내게 됩니다. 2개의 요청이 두개의 활성 스레드에서 각각 3초동안 block되고, 3번째 요청은 작업 큐에서 대기할 것이므로 4,5번째 요청은 거절되어야 합니다.
+
+
+
+결과는...
+
+<figure><img src="../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
+
+요청은 동시에 갔지만, 응답은 3초단위로 텀을 두고 순차적으로 처리되는 모습을 볼 수 있습니다.
+
+서버측도 확인해보겠습니다.
+
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+2개의 활성 스레드가 차근차근 3초 간격으로 작업을 처리한 걸 볼 수 있습니다. 작업큐는 1칸 이므로 두개의 4,5번째 요청은 받을 수 없었을텐데 어떻게 이게 가능했을까요?
+
+
+
+### BIO Connector 와 NIO Connector

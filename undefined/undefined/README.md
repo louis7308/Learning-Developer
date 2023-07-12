@@ -18,4 +18,4 @@ description: 자료구조 정의
 
 아무 규칙 없이 꽂아 넣었기 때문에 찾을 때도 규칙 없이 모든 범위를 찾아야 한다.
 
-![](<../../.gitbook/assets/image (5).png>)
+![](<../../.gitbook/assets/image (5) (1).png>)

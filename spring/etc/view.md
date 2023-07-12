@@ -1,6 +1,6 @@
 # View 페이지 구동 원리
 
-<figure><img src="../../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (8) (1).png" alt=""><figcaption></figcaption></figure>
 
 * 컨트롤러에서 리턴 값으로 문자(ex: `retrun "hello";`)를 반환하면 뷰 리졸버(`viewResolver`)가 화면을 찾아서 처리합니다.
   * 스프링 부트 템플릿 엔진 기본 viewName 매핑
