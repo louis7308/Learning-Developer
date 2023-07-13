@@ -194,3 +194,7 @@ class HelloController(
 
 
 ### BIO Connector 와 NIO Connector
+
+비밀은 Connector에 있습니다. 위의 이야기는 BIO(Blocking I/O) Connector일 때 유효한 이야기입니다.
+
+그러나 톰캣 8.0부터 NIO(NonBlocking I/O) Connector이 기본으로 채택되고, 9.0부터는 BIO Connector이 `deprecate` 됨으로써 위의 설명과는 다른 방식으로 진행되게 합니다. 하나씩 알아보겠습니다.
