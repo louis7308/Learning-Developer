@@ -198,3 +198,13 @@ class HelloController(
 비밀은 Connector에 있습니다. 위의 이야기는 BIO(Blocking I/O) Connector일 때 유효한 이야기입니다.
 
 그러나 톰캣 8.0부터 NIO(NonBlocking I/O) Connector이 기본으로 채택되고, 9.0부터는 BIO Connector이 `deprecate` 됨으로써 위의 설명과는 다른 방식으로 진행되게 합니다. 하나씩 알아보겠습니다.
+
+
+
+#### Connector
+
+Connector는 소켓 연결을 수입하고 데이터 패킷을 획득하여 HttpServletRequest객체로 변환하고, Servlet 객체에 전달하는 역활을 합니다.
+
+1. Acceptor에서 while문으로 대기하며 port listen을 통해 Socket Connection을 얻게 됩니다.
+2. Socket Connection으로 부터 데이터를 획득합니다. 데이터 패킷을 파싱해서 HttpServletRequest 객체를 생성합니다.
+3. Servlet Container 에 해당 요청객체를 전달합니다. ServletContainer는 알맞은 서블릿을 찾아 요청을 처리합니다.
