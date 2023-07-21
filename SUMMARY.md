@@ -23,4 +23,6 @@
   * [View 페이지 구동 원리](spring/etc/view.md)
   * [스프링부트는 어떻게 다중 유저 요청을 처리할까?](spring/etc/undefined-1.md)
 
-## Group 1
+## 재밌는 일 <a href="#fun" id="fun"></a>
+
+* [SMS 1차 배포 후 리팩토링을 작업을 진행 하였을 때](fun/sms-1.md)

@@ -118,7 +118,7 @@ accept-count는 작업큐의 사이즈 입니다. 스프링 부트에선 아무 
 
 아래는 ThreadPoolExecutor의 생성자에 브레이크 포인트를 찍어놓고 디버그 모드로 실행한 결과입니다. Spring Boot 실행시, 톰캣을 initalize하고, ThreadPoolExecutor을 상속한 ScheduledThreadPoolExecutor를 생성함을 볼 수 있습니다. 이 때 Environment에 설정한 값이 있다면 해당 값이 주입되고, 없으면 기본값이 주입됩니다.
 
-<figure><img src="../../.gitbook/assets/image (8).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 ### 스레드풀 테스트
 
@@ -187,7 +187,7 @@ class HelloController(
 
 서버측도 확인해보겠습니다.
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 2개의 활성 스레드가 차근차근 3초 간격으로 작업을 처리한 걸 볼 수 있습니다. 작업큐는 1칸 이므로 두개의 4,5번째 요청은 받을 수 없었을텐데 어떻게 이게 가능했을까요?
 
@@ -208,3 +208,7 @@ Connector는 소켓 연결을 수입하고 데이터 패킷을 획득하여 Http
 1. Acceptor에서 while문으로 대기하며 port listen을 통해 Socket Connection을 얻게 됩니다.
 2. Socket Connection으로 부터 데이터를 획득합니다. 데이터 패킷을 파싱해서 HttpServletRequest 객체를 생성합니다.
 3. Servlet Container 에 해당 요청객체를 전달합니다. ServletContainer는 알맞은 서블릿을 찾아 요청을 처리합니다.
+
+#### BIO Connector
+
+BIO Connector는 Socket Connection을 처리할 때 Java의 기본적인 I/O 기술을 사용합니다. thread pool에 의해 관리되는 thread는 소켓 연결을 받고 요청을 처리하고 요청에 대해 응답한 후 소켓 연결이 종료되면 pool에 다시 돌아오게 됩니다.
