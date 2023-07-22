@@ -26,3 +26,7 @@
 ## 재밌는 일 <a href="#fun" id="fun"></a>
 
 * [SMS 1차 배포 후 리팩토링을 작업을 진행 하였을 때](fun/sms-1.md)
+
+## 아키텍처 <a href="#architecture" id="architecture"></a>
+
+* [멀티 모듈(Multi Module) 이란 무엇이고, 왜 써야할까?](architecture/multi-module.md)
