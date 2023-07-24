@@ -72,7 +72,7 @@ Tomcat 3.2 이전 버전에서는, 유저의 요청이 들어올 때 마다 Serv
 
 해당 문제를 해결하기 위해, 톰캣은 스레드풀을 활용하기 시작합니다.
 
-<figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (11) (1).png" alt=""><figcaption></figcaption></figure>
 
 스레드풀의 기본 flow는 다음과 같습니다.
 
