@@ -136,8 +136,4 @@ private fun filterStudentsForTeacher(
 
 
 
-그래서 생각해낸 것이 QueryDSL를 사용하여 데이터를 가져오는 로직을 작성하고 Where절을 BooleanBuilder 패턴을 활용하여 가독성 측면을 늘리면서, 코드를 읽기 좋은 코드로 만들어 보자고 하였습니다.
-
-
-
 ### 리팩토링 후
