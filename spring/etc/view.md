@@ -20,4 +20,4 @@ spring:
 
 `hotswap` 기능을 사용하면 `Recompile` 도 자동으로 됩니다.
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
