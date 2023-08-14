@@ -22,6 +22,7 @@
   * [쿼리 파라미터 로그 남기기](spring/etc/undefined.md)
   * [View 페이지 구동 원리](spring/etc/view.md)
   * [스프링부트는 어떻게 다중 유저 요청을 처리할까?](spring/etc/undefined-1.md)
+* [SOLID](spring/solid.md)
 
 ## 재밌는 일 <a href="#fun" id="fun"></a>
 
