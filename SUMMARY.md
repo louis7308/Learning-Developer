@@ -18,6 +18,7 @@
 
 ## Spring
 
+* [영속성 컨텍스트(persistence context)](spring/persistence-context.md)
 * [Etc](spring/etc/README.md)
   * [쿼리 파라미터 로그 남기기](spring/etc/undefined.md)
   * [View 페이지 구동 원리](spring/etc/view.md)
