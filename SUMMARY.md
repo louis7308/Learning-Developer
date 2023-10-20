@@ -41,3 +41,7 @@
 
 * [Lv1](programmers/lv1/README.md)
   * [<같은 숫자는 싫어> 코틀린 풀이](programmers/lv1/less-than-greater-than.md)
+
+## 🌱 기술 질문 대비 <a href="#tech-question" id="tech-question"></a>
+
+* [Kotlin 에 대한 기술 질문](tech-question/kotlin.md)
