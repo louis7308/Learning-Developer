@@ -137,3 +137,5 @@ private fun filterStudentsForTeacher(
 
 
 ### 리팩토링 후
+
+위와 같이 읽기 어려운 구조를 개선해보았습니다.
